@@ -213,6 +213,15 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Components\MySql.Data.dll" />
+    <Content Include="Components\MySql.Data.Entity.EF5.dll" />
+    <Content Include="Components\MySql.Data.Entity.EF5.xml" />
+    <Content Include="Components\MySql.Data.Entity.EF6.dll" />
+    <Content Include="Components\MySql.Data.Entity.EF6.xml" />
+    <Content Include="Components\MySql.Data.xml" />
+    <Content Include="Components\MySql.Fabric.Plugin.dll" />
+    <Content Include="Components\MySql.Web.dll" />
+    <Content Include="Components\MySql.Web.xml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />

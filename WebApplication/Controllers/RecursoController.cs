@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -24,7 +25,8 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                return db.Recurso.Where(r => r.UsuarioId == usuarioId).ToList();
+                var recursos = db.Recurso.Where(r => r.UsuarioId == usuarioId).Include(u => u.Usuario).Include(r => r.ItemPerfils).ToList();
+                return recursos;
             }
         }
 

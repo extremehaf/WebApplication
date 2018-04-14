@@ -16,7 +16,7 @@ namespace WebApplication.DAL
         //public virtual DbSet<Product> Products { get; set; }
         public dbContext() : base("CONEXAO")
         {
-
+            Configuration.ProxyCreationEnabled = false;
         }
 
         public IDbSet<Usuario> Usuario { get; set; }

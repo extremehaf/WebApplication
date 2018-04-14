@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace WebApplication.Models
@@ -13,7 +14,9 @@ namespace WebApplication.Models
         public int Quantidade { get; set; }
         public int Dias_uso { get; set; }
         public int Tempo_uso { get; set; }
+        [DataMember(IsRequired = false)]
         public virtual Recurso Recurso { get; set; }
+        [DataMember(IsRequired = false)]
         public virtual PerfilConsumo PerfilConsumo { get; set; }
         public ItemPerfil()
         {

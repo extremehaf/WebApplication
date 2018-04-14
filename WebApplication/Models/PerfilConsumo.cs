@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.Runtime.Serialization;
 namespace WebApplication.Models
 {
     public class PerfilConsumo
@@ -18,6 +18,7 @@ namespace WebApplication.Models
         public double ConsumoMensal { get; set; }
         public double ValorEstimado { get; set; }
         public virtual ICollection<ItemPerfil> ItemPerfils { get; set; }
+        [DataMember(IsRequired = false)]
         public virtual Usuario Usuario { get; set; }
 
         public PerfilConsumo()

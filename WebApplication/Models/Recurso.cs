@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using System.Runtime.Serialization;
 namespace WebApplication.Models
 {
     public class Recurso
@@ -15,10 +15,12 @@ namespace WebApplication.Models
         public String Voltagem { get; set; }
         public int Potencia { get; set; }
         public virtual ICollection<ItemPerfil> ItemPerfils { get; set; }
+        
         public virtual Usuario Usuario { get; set; }
         public Recurso()
         {
             this.Foto = null;
+            this.ItemPerfils = new List<ItemPerfil>();
         }
 
         public Recurso(String nome, String d, byte[] f, String v, int p)

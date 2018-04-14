@@ -14,8 +14,13 @@ namespace WebApplication.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            ViewBag.Ip = GetLocalIPAddress();
+            ViewBag.Ip = GetExternalIPAddress();
             return View();
+        }
+        public static string GetExternalIPAddress()
+        {
+            string externalip = new WebClient().DownloadString("http://checkip.dyndns.org/");
+            return externalip;
         }
         public string GetLocalIPAddress()
         {

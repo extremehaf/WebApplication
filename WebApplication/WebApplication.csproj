@@ -186,6 +186,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RecursoController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="DAL\dbContext.cs" />
     <Compile Include="Global.asax.cs">
@@ -194,6 +195,10 @@
     <Compile Include="Migrations\201804141854270_Inicial.cs" />
     <Compile Include="Migrations\201804141854270_Inicial.Designer.cs">
       <DependentUpon>201804141854270_Inicial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201804142002586_01.cs" />
+    <Compile Include="Migrations\201804142002586_01.Designer.cs">
+      <DependentUpon>201804142002586_01.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Mapeamento\RecursoConfiguration.cs" />
@@ -286,6 +291,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201804141854270_Inicial.resx">
       <DependentUpon>201804141854270_Inicial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804142002586_01.resx">
+      <DependentUpon>201804142002586_01.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

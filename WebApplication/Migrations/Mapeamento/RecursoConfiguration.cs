@@ -18,10 +18,10 @@ namespace WebApplication.Migrations.Mapeamento
             Property(x => x.Id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Nome).HasColumnName("nome").IsRequired().HasMaxLength(250);
             Property(x => x.UsuarioId).HasColumnName("usuario_id").IsRequired();
-            Property(x => x.Descricao).HasColumnName("descricao").IsRequired().HasMaxLength(250);
-            Property(x => x.Foto).HasColumnName("foto").IsRequired();
-            Property(x => x.Potencia).HasColumnName("potencia");
-            Property(x => x.Voltagem).HasColumnName("data_nascimento").IsRequired();
+            Property(x => x.Descricao).HasColumnName("descricao").HasMaxLength(250);
+            Property(x => x.Foto).HasColumnName("foto");
+            Property(x => x.Potencia).HasColumnName("potencia").IsRequired();
+            Property(x => x.Voltagem).HasColumnName("voltagem").IsRequired();
 
             HasMany(e => e.ItemPerfils).WithRequired(e => e.Recurso).HasForeignKey(e => e.RecursoId).WillCascadeOnDelete(false);
 

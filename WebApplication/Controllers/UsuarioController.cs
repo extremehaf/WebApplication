@@ -40,40 +40,29 @@ namespace WebApplication.Controllers
         }
         [HttpPost]
         [Route("api/Usuario/autentica/")]
-        public string AutenticaUsuario([FromBody]Usuario usuario)
+        public Usuario AutenticaUsuario([FromBody]Usuario usuario)
         {
-            
-            try
+            using (var db = new dbContext())
             {
-                //string email, senha;
-                //dynamic json = jObject;
-
-                //email = json.email;
-                //senha = json.senha;
-                using (var db = new dbContext())
+                var user = db.Usuario.Where(u => u.Email == usuario.Email).FirstOrDefault();
+                if (user == null)
                 {
-                    var user = db.Usuario.Where(u => u.Email == usuario.Email).FirstOrDefault();
-                    if(user == null)
-                    {
-                        throw new Exception("Email não cadastrado");
-                    }
-                    var senhaOk = Util.Criptografia.Compara(usuario.Senha, user.Senha);
-                    if (senhaOk)
-                        return "Ok";
-                    else
-                        return "Usuario ou senha inválidos";
+                    throw new Exception("Email não cadastrado");
                 }
+                var senhaOk = Util.Criptografia.Compara(usuario.Senha, user.Senha);
+                if (senhaOk)
+                    return user;
+                else
+                    return new Usuario();
             }
-            catch(Exception e)
-            {
-                return $"Erro ao realizar o login: {e.Message}";
-            }
+
         }
         // POST: api/Usuario
         public Usuario Post([FromBody]Usuario usuario)
         {
-            try{
-                using(var db = new dbContext())
+            try
+            {
+                using (var db = new dbContext())
                 {
                     var user = db.Usuario.Add(usuario);
                     return user;

@@ -20,6 +20,8 @@ namespace WebApplication.Models
         public virtual ICollection<Recurso> Recursos { get; set; }
         public Usuario()
         {
+            this.PerfilConsumos = new List<PerfilConsumo>();
+            this.Recursos = new List<Recurso>();
         }
 
         public Usuario(int id, String nome, String email, String senha, String endereco, DateTime dataNascimento)

@@ -43,17 +43,19 @@ namespace WebApplication.Controllers
         }
 
         // POST api/values
-        public void Post([FromBody]Recurso value)
+        public HttpResponseMessage Post([FromBody]Recurso value)
         {
             using (var db = new dbContext())
             {
+                value.Id = 0;
                 db.Recurso.Add(value);
                 db.SaveChanges();
             }
+            return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]Recurso value)
+        public HttpResponseMessage Put(int id, [FromBody]Recurso value)
         {
             using (var db = new dbContext())
             {
@@ -62,22 +64,21 @@ namespace WebApplication.Controllers
                 {
                     recurso.Descricao = value.Descricao;
                     recurso.Foto = value.Foto;
-                    recurso.Id = value.Id;
-                    recurso.ItemPerfils = value.ItemPerfils;
                     recurso.Nome = value.Nome;
                     recurso.Potencia = value.Potencia;
-                    recurso.Usuario = value.Usuario;
                     recurso.UsuarioId = value.UsuarioId;
                     recurso.Voltagem = value.Voltagem;
 
                     db.SaveChanges();
+                    return new HttpResponseMessage(HttpStatusCode.OK);
                 }
 
             }
+            return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
             using (var db = new dbContext())
             {
@@ -86,8 +87,10 @@ namespace WebApplication.Controllers
                 {
                     db.Recurso.Remove(recurso);
                     db.SaveChanges();
+                    return new HttpResponseMessage(HttpStatusCode.OK);
                 }
             }
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
     }
 }

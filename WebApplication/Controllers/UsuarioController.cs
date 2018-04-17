@@ -13,7 +13,7 @@ namespace WebApplication.Controllers
     public class UsuarioController : ApiController
     {
         // GET: api/Usuario
-        public IEnumerable<Usuario> Get()
+        public List<Usuario> Get()
         {
             using (var db = new dbContext())
             {

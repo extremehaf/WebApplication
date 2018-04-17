@@ -14,7 +14,8 @@ namespace WebApplication.Controllers
         // GET api/values
         public List<Recurso> Get()
         {
-            using (var db = new dbContext()) {
+            using (var db = new dbContext())
+            {
                 return db.Recurso.ToList();
             }
         }
@@ -31,24 +32,62 @@ namespace WebApplication.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+
+        public Recurso Get(int id)
         {
-            return "value";
+            using (var db = new dbContext())
+            {
+                return db.Recurso.Where(c => c.Id == id).FirstOrDefault();
+            }
+
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Recurso value)
         {
+            using (var db = new dbContext())
+            {
+                db.Recurso.Add(value);
+                db.SaveChanges();
+            }
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]Recurso value)
         {
+            using (var db = new dbContext())
+            {
+                var recurso = db.Recurso.Where(c => c.Id == id).FirstOrDefault();
+                if (recurso != null)
+                {
+                    recurso.Descricao = value.Descricao;
+                    recurso.Foto = value.Foto;
+                    recurso.Id = value.Id;
+                    recurso.ItemPerfils = value.ItemPerfils;
+                    recurso.Nome = value.Nome;
+                    recurso.Potencia = value.Potencia;
+                    recurso.Usuario = value.Usuario;
+                    recurso.UsuarioId = value.UsuarioId;
+                    recurso.Voltagem = value.Voltagem;
+
+                    db.SaveChanges();
+                }
+
+            }
         }
 
         // DELETE api/values/5
         public void Delete(int id)
         {
+            using (var db = new dbContext())
+            {
+                var recurso = db.Recurso.Where(c => c.Id == id).FirstOrDefault();
+                if (recurso != null)
+                {
+                    db.Recurso.Remove(recurso);
+                    db.SaveChanges();
+                }
+            }
         }
     }
 }

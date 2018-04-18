@@ -22,7 +22,7 @@ namespace WebApplication.DAL
         public IDbSet<Usuario> Usuario { get; set; }
         public IDbSet<Recurso> Recurso { get; set; }
 
-        public IDbSet<PerfilConsumo> ProPerfilConsumoduto { get; set; }
+        public IDbSet<PerfilConsumo> PerfilConsumo { get; set; }
         public IDbSet<ItemPerfil> ItemPerfil { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

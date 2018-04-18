@@ -189,6 +189,8 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ItemPerfilController.cs" />
+    <Compile Include="Controllers\PerfilConsumoController.cs" />
     <Compile Include="Controllers\RecursoController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />

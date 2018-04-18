@@ -88,10 +88,7 @@ namespace WebApplication.Controllers
                     user.DataNascimento = value.DataNascimento;
                     user.Email = value.Email;
                     user.Endereco = value.Endereco;
-                    user.Id = value.Id;//TODO: validar se a senha foi alterada!!
                     user.Nome = value.Nome;
-                    user.PerfilConsumos = value.PerfilConsumos;
-                    user.Recursos = value.Recursos;
                     
                     if (user.Senha!= Util.Criptografia.Codifica(value.Senha))
                     {

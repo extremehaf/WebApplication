@@ -56,7 +56,7 @@ namespace WebApplication.Controllers
         }
 
         // PUT api/values/5
-        public HttpResponseMessage Put(int id, [FromBody]Recurso value)
+        public int Put(int id, [FromBody]Recurso value)
         {
             using (var db = new dbContext())
             {
@@ -71,11 +71,11 @@ namespace WebApplication.Controllers
                     recurso.Voltagem = value.Voltagem;
 
                     db.SaveChanges();
-                    return new HttpResponseMessage(HttpStatusCode.OK);
                 }
+                return id;
 
             }
-            return new HttpResponseMessage(HttpStatusCode.NoContent);
+            //return new HttpResponseMessage(HttpStatusCode.NoContent);
         }
 
         // DELETE api/values/5

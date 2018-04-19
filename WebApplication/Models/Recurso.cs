@@ -11,7 +11,7 @@ namespace WebApplication.Models
         public String Descricao { get; set; }
         public int UsuarioId { get; set; }
         public String Nome { get; set; }
-        public byte[] Foto { get; set; }
+        public String Foto { get; set; }
         public String Voltagem { get; set; }
         public int Potencia { get; set; }
         public virtual ICollection<ItemPerfil> ItemPerfils { get; set; }
@@ -23,7 +23,7 @@ namespace WebApplication.Models
             this.ItemPerfils = new List<ItemPerfil>();
         }
 
-        public Recurso(String nome, String d, byte[] f, String v, int p)
+        public Recurso(String nome, String d, String f, String v, int p)
         {
             this.Nome = nome;
             this.Descricao = d;

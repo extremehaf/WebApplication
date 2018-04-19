@@ -43,15 +43,16 @@ namespace WebApplication.Controllers
         }
 
         // POST api/values
-        public HttpResponseMessage Post([FromBody]Recurso value)
+        public int Post([FromBody]Recurso value)
         {
             using (var db = new dbContext())
             {
                 value.Id = 0;
-                db.Recurso.Add(value);
+                value = db.Recurso.Add(value);
                 db.SaveChanges();
             }
-            return new HttpResponseMessage(HttpStatusCode.OK);
+
+            return value.Id;
         }
 
         // PUT api/values/5

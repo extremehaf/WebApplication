@@ -8,11 +8,14 @@ namespace WebApplication.Models
     public class PerfilConsumo
     {
         public int Id { get; set; }
+        public string Descricao { get; set; }
+        
         public int UsuarioId { get; set; }
         public string Tipo { get; set; }
         public double Icms { get; set; }
         public double Pis { get; set; }
         public double Cofins { get; set; }
+        public double Adicional { get; set; }
         public double Kwh { get; set; }
         public double ConsumoDiario { get; set; }
         public double ConsumoMensal { get; set; }

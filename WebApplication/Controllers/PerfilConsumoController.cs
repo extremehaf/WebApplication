@@ -12,6 +12,7 @@ namespace WebApplication.Controllers
     public class PerfilConsumoController : ApiController
     {
         // GET api/<controller>
+        [HttpGet]
         public List<PerfilConsumo> Get()
         {
             using (var db=new dbContext())
@@ -19,8 +20,19 @@ namespace WebApplication.Controllers
                 return db.PerfilConsumo.ToList();
             }
         }
+        // GET api/<controller/{usuarioID}>
+        [HttpGet]
+        [Route("api/PerfilConsumo/usuario/{usuarioId}")]
+        public List<PerfilConsumo> PerfilConsumoUsuario(int usuarioId)
+        {
+            using (var db = new dbContext())
+            {
+                return db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).ToList();
+            }
+        }
 
         // GET api/<controller>/5
+        [HttpGet]
         public PerfilConsumo Get(int id)
         {
             using (var db = new dbContext())
@@ -30,6 +42,7 @@ namespace WebApplication.Controllers
         }
 
         // POST api/<controller>
+        [HttpPost]
         public HttpResponseMessage Post([FromBody]PerfilConsumo value)
         {
             using (var db = new dbContext())
@@ -42,6 +55,7 @@ namespace WebApplication.Controllers
         }
 
         // PUT api/<controller>/5
+        [HttpPut]
         public HttpResponseMessage Put(int id, [FromBody]PerfilConsumo value)
         {
             using (var db = new dbContext())
@@ -49,6 +63,7 @@ namespace WebApplication.Controllers
                 var perfilConsumo = db.PerfilConsumo.Where(c=>c.Id==id).FirstOrDefault();
                 if (perfilConsumo!=null)
                 {
+                    perfilConsumo.Descricao = value.Descricao;
                     perfilConsumo.Cofins = value.Cofins;
                     perfilConsumo.ConsumoDiario = value.ConsumoDiario;
                     perfilConsumo.ConsumoMensal = value.ConsumoMensal;
@@ -66,6 +81,7 @@ namespace WebApplication.Controllers
         }
 
         // DELETE api/<controller>/5
+        [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
             using (var db = new dbContext())

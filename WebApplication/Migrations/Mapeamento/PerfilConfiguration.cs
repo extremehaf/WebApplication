@@ -22,9 +22,9 @@ namespace WebApplication.Migrations.Mapeamento
             Property(x => x.Pis).IsRequired().HasColumnName("pis");
             Property(x => x.Cofins).IsRequired().HasColumnName("cofins");
             Property(x => x.Kwh).IsRequired().HasColumnName("kwh");     
-            Property(x => x.ConsumoDiario).HasColumnName("consumo_diario");
-            Property(x => x.ConsumoMensal).HasColumnName("consumo_mensal");
-            Property(x => x.ValorEstimado).HasColumnName("consumo_estimado");
+            Property(x => x.ConsumoDiario).IsOptional().HasColumnName("consumo_diario");
+            Property(x => x.ConsumoMensal).IsOptional().HasColumnName("consumo_mensal");
+            Property(x => x.ValorEstimado).IsOptional().HasColumnName("consumo_estimado");
 
             HasMany(e => e.ItemPerfils).WithRequired(e => e.PerfilConsumo).HasForeignKey(e => e.PerfilId).WillCascadeOnDelete(false);
 

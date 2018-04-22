@@ -16,7 +16,7 @@ namespace WebApplication.Controllers
         [HttpGet]
         public List<PerfilConsumo> Get()
         {
-            using (var db=new dbContext())
+            using (var db = new dbContext())
             {
                 return db.PerfilConsumo.ToList();
             }
@@ -25,12 +25,12 @@ namespace WebApplication.Controllers
         [HttpGet]
         [Route("api/PerfilConsumo/usuario/{usuarioId}")]
         public List<PerfilConsumo> PerfilConsumoUsuario(int usuarioId)
-     {
+        {
             using (var db = new dbContext())
             {
                 var perfil = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils.Select(r => r.Recurso));
 
-                             
+
                 return perfil.ToList();
             }
         }
@@ -41,7 +41,7 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                return db.PerfilConsumo.Where(c=>c.Id ==id).FirstOrDefault();
+                return db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso).FirstOrDefault();
             }
         }
 
@@ -64,8 +64,8 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                var perfilConsumo = db.PerfilConsumo.Where(c=>c.Id==id).FirstOrDefault();
-                if (perfilConsumo!=null)
+                var perfilConsumo = db.PerfilConsumo.Where(c => c.Id == id).FirstOrDefault();
+                if (perfilConsumo != null)
                 {
                     perfilConsumo.Descricao = value.Descricao;
                     perfilConsumo.Cofins = value.Cofins;
@@ -90,8 +90,8 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                var perfilConsumo = db.PerfilConsumo.Where(c=>c.Id==id).FirstOrDefault();
-                if (perfilConsumo!=null)
+                var perfilConsumo = db.PerfilConsumo.Where(c => c.Id == id).FirstOrDefault();
+                if (perfilConsumo != null)
                 {
                     db.PerfilConsumo.Remove(perfilConsumo);
                     db.SaveChanges();

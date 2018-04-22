@@ -41,7 +41,7 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                return db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso).FirstOrDefault();
+                return db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso)).FirstOrDefault();
             }
         }
 

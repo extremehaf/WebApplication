@@ -49,7 +49,7 @@ namespace WebApplication.Controllers
                 var itemPerfil = db.ItemPerfil.Where(c => c.Id == id).FirstOrDefault();
                 if (itemPerfil!=null)
                 {
-                    itemPerfil.Dias_uso = value.Dias_uso;
+                    itemPerfil.DiasUso = value.DiasUso;
                     itemPerfil.PerfilId = value.PerfilId;
                     itemPerfil.Quantidade = value.Quantidade;
                     itemPerfil.RecursoId = value.RecursoId;

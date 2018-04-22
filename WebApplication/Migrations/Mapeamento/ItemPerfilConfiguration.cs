@@ -17,7 +17,7 @@ namespace WebApplication.Migrations.Mapeamento
             HasKey(x => x.Id);
             Property(x => x.Id).HasColumnName("id").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Quantidade).HasColumnName("quantidade").IsRequired();
-            Property(x => x.Dias_uso).HasColumnName("senha").IsRequired();
+            Property(x => x.DiasUso).HasColumnName("dias_uso").IsRequired();
           
 
         

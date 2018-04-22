@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -24,10 +25,10 @@ namespace WebApplication.Controllers
         [HttpGet]
         [Route("api/PerfilConsumo/usuario/{usuarioId}")]
         public List<PerfilConsumo> PerfilConsumoUsuario(int usuarioId)
-        {
+     {
             using (var db = new dbContext())
             {
-                return db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).ToList();
+                return db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils).ToList();
             }
         }
 

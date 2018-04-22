@@ -35,6 +35,8 @@ namespace WebApplication.Controllers
             using (var db = new dbContext())
             {
                 value.Id = 0;
+                value.Recurso = null;
+                value.PerfilConsumo = null;
                 db.ItemPerfil.Add(value);
                 db.SaveChanges();
             }

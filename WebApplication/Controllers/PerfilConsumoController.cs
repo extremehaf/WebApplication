@@ -28,9 +28,11 @@ namespace WebApplication.Controllers
      {
             using (var db = new dbContext())
             {
-                var perfil = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils);
-                var itens = perfil.SelectMany(i => i.ItemPerfils);
-                var recurso = itens.Include(r => r.Recurso);
+                var perfil = from p in db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId)
+                             join i in db.ItemPerfil on p.Id equals i.PerfilId
+                             join r in db.Recurso on i.RecursoId equals r.Id
+                             select p;
+                             
                 return perfil.ToList();
             }
         }

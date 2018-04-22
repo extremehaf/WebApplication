@@ -30,17 +30,17 @@ namespace WebApplication.Controllers
         }
 
         // POST api/<controller>
-        public HttpResponseMessage Post([FromBody]ItemPerfil value)
+        public int Post([FromBody]ItemPerfil value)
         {
             using (var db = new dbContext())
             {
                 value.Id = 0;
                 value.Recurso = null;
                 value.PerfilConsumo = null;
-                db.ItemPerfil.Add(value);
+               value = db.ItemPerfil.Add(value);
                 db.SaveChanges();
             }
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return value.Id;
         }
 
         // PUT api/<controller>/5

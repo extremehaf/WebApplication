@@ -28,15 +28,9 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                var perfil = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils.Select(r => r.Recurso));
+                var perfil = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils);
 
-                foreach (var p in perfil)
-                {
-                    foreach (var ip in p.ItemPerfils)
-                    {
-                        ip.Recurso.Foto = null;
-                    }
-                }
+                
                 return perfil.ToList();
             }
         }
@@ -47,7 +41,13 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                return db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso)).FirstOrDefault();
+                var perfil =  db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso)).FirstOrDefault();
+
+                foreach (var ip in perfil.ItemPerfils)
+                {
+                    ip.Recurso.Foto = null;
+                }
+                return perfil;
             }
         }
 

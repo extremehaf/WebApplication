@@ -30,7 +30,13 @@ namespace WebApplication.Controllers
             {
                 var perfil = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils.Select(r => r.Recurso));
 
-
+                foreach (var p in perfil)
+                {
+                    foreach (var ip in p.ItemPerfils)
+                    {
+                        ip.Recurso.Foto = null;
+                    }
+                }
                 return perfil.ToList();
             }
         }
@@ -47,15 +53,15 @@ namespace WebApplication.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]PerfilConsumo value)
+        public int Post([FromBody]PerfilConsumo value)
         {
             using (var db = new dbContext())
             {
                 value.Id = 0;
-                db.PerfilConsumo.Add(value);
+                value = db.PerfilConsumo.Add(value);
                 db.SaveChanges();
             }
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            return value.Id;
         }
 
         // PUT api/<controller>/5
@@ -99,6 +105,59 @@ namespace WebApplication.Controllers
                 }
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
+        }
+        [HttpGet]
+        [Route("api/PerfilConsumo/{perfilId}")]
+        public PerfilConsumo CalculaFaturaReais(int IdPerfil)
+        {
+            PerfilConsumo result = null;
+            using (var db = new dbContext())
+            {
+                var perfil = db.PerfilConsumo.Where(c => c.Id == IdPerfil).FirstOrDefault();
+                if (perfil != null)
+                {
+                    perfil.ValorEstimado = SomaTotalFatura(perfil);
+                    var totalKwh = CalculaFaturaKwh(perfil);
+                    perfil.ConsumoDiario = totalKwh / 30;
+                    perfil.ConsumoMensal = totalKwh;
+                }
+            }
+            return result;
+        }
+
+        public double CalculaFaturaKwh(PerfilConsumo perfil)
+        {
+            double result = 0;
+            if (perfil != null)
+            {
+                result = SomaTotalKwh(perfil);
+            }
+            return result;
+        }
+
+        public double SomaValorRecurso(ItemPerfil item)
+        {
+            double result = 0;
+            if (item.Recurso != null)
+            {
+                result = ((item.Recurso.Potencia / 1000) * (item.DiasUso * item.Tempo_uso) * item.Quantidade);
+            }
+            return result;
+        }
+        public double SomaTotalFatura(PerfilConsumo perfil)
+        {
+            var somaRecursos = SomaTotalKwh(perfil);
+            return (somaRecursos * (perfil.Kwh + perfil.Adicional + ((perfil.Kwh) + perfil.Adicional) * perfil.Icms) + somaRecursos * (perfil.Cofins + perfil.Pis));
+        }
+
+        private double SomaTotalKwh(PerfilConsumo perfil)
+        {
+            double somaRecursosKwh = 0;
+            foreach (var item in perfil.ItemPerfils)
+            {
+                somaRecursosKwh += SomaValorRecurso(item);
+            }
+            return somaRecursosKwh;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                return db.ItemPerfil.Where(c=>c.Id ==id).FirstOrDefault();
+                return db.ItemPerfil.Where(c => c.Id == id).FirstOrDefault();
             }
         }
 
@@ -37,7 +37,7 @@ namespace WebApplication.Controllers
                 value.Id = 0;
                 value.Recurso = null;
                 value.PerfilConsumo = null;
-               value = db.ItemPerfil.Add(value);
+                value = db.ItemPerfil.Add(value);
                 db.SaveChanges();
             }
             return value.Id;
@@ -49,7 +49,7 @@ namespace WebApplication.Controllers
             using (var db = new dbContext())
             {
                 var itemPerfil = db.ItemPerfil.Where(c => c.Id == id).FirstOrDefault();
-                if (itemPerfil!=null)
+                if (itemPerfil != null)
                 {
                     itemPerfil.DiasUso = value.DiasUso;
                     itemPerfil.PerfilId = value.PerfilId;
@@ -69,7 +69,7 @@ namespace WebApplication.Controllers
             using (var db = new dbContext())
             {
                 var itemPerfil = db.ItemPerfil.Where(c => c.Id == id).FirstOrDefault();
-                if (itemPerfil!=null)
+                if (itemPerfil != null)
                 {
                     db.ItemPerfil.Remove(itemPerfil);
                     db.SaveChanges();
@@ -77,6 +77,7 @@ namespace WebApplication.Controllers
                 }
             }
             return new HttpResponseMessage(HttpStatusCode.BadRequest);
-        }
+        }       
+
     }
 }

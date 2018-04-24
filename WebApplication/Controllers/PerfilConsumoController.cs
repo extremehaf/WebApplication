@@ -54,6 +54,7 @@ namespace WebApplication.Controllers
 
         // POST api/<controller>
         [HttpPost]
+        [Route("api/PerfilConsumo")]
         public int Post([FromBody]PerfilConsumo value)
         {
             using (var db = new dbContext())

@@ -10,7 +10,7 @@ namespace WebApplication.Models
         public int PerfilId { get; set; }
         public int Quantidade { get; set; }
         public int DiasUso { get; set; }
-        public int Tempo_uso { get; set; }
+        public double Tempo_uso { get; set; }
         [DataMember(IsRequired = false)]
         public virtual Recurso Recurso { get; set; }
         [DataMember(IsRequired = false)]

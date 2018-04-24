@@ -154,7 +154,7 @@ namespace WebApplication.Controllers
         public double SomaTotalFatura(PerfilConsumo perfil)
         {
             var somaRecursos = SomaTotalKwh(perfil);
-            return (somaRecursos * ((double)perfil.Kwh + (double)perfil.Adicional + ((double)perfil.Kwh + (double)perfil.Adicional) * (double)perfil.Icms) + somaRecursos * ((double)perfil.Cofins + (double)perfil.Pis));
+            return ((somaRecursos * ((double)perfil.Kwh + (double)perfil.Adicional + (((double)perfil.Kwh + (double)perfil.Adicional) * ((double)perfil.Icms)/(double)100))) + (somaRecursos * (((double)perfil.Cofins/(double)100) + ((double)perfil.Pis)/(double)100)));
         }
 
         private double SomaTotalKwh(PerfilConsumo perfil)

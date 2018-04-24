@@ -68,6 +68,7 @@ namespace WebApplication.Controllers
 
         // PUT api/<controller>/5
         [HttpPut]
+        [Route("api/PerfilConsumo/{id}")]
         public HttpResponseMessage Put(int id, [FromBody]PerfilConsumo value)
         {
             using (var db = new dbContext())
@@ -110,13 +111,13 @@ namespace WebApplication.Controllers
             }
         }
         [HttpGet]
-        [Route("api/PerfilConsumo/{perfilId}")]
-        public PerfilConsumo CalculaFaturaReais(int IdPerfil)
+        [Route("api/PerfilConsumo/calcular/{perfilId}")]
+        public PerfilConsumo CalculaFaturaReais(int perfilId)
         {
             PerfilConsumo result = null;
             using (var db = new dbContext())
             {
-                var perfil = db.PerfilConsumo.Where(c => c.Id == IdPerfil).FirstOrDefault();
+                var perfil = db.PerfilConsumo.Where(c => c.Id == perfilId).FirstOrDefault();
                 if (perfil != null)
                 {
                     perfil.ValorEstimado = SomaTotalFatura(perfil);
@@ -128,7 +129,7 @@ namespace WebApplication.Controllers
             return result;
         }
 
-        public double CalculaFaturaKwh(PerfilConsumo perfil)
+        private double CalculaFaturaKwh(PerfilConsumo perfil)
         {
             double result = 0;
             if (perfil != null)
@@ -138,7 +139,7 @@ namespace WebApplication.Controllers
             return result;
         }
 
-        public double SomaValorRecurso(ItemPerfil item)
+        private double SomaValorRecurso(ItemPerfil item)
         {
             double result = 0;
             if (item.Recurso != null)
@@ -147,7 +148,7 @@ namespace WebApplication.Controllers
             }
             return result;
         }
-        public double SomaTotalFatura(PerfilConsumo perfil)
+        private double SomaTotalFatura(PerfilConsumo perfil)
         {
             var somaRecursos = SomaTotalKwh(perfil);
             return (somaRecursos * (perfil.Kwh + perfil.Adicional + ((perfil.Kwh) + perfil.Adicional) * perfil.Icms) + somaRecursos * (perfil.Cofins + perfil.Pis));

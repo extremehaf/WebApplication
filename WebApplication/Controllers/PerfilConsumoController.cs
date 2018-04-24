@@ -110,20 +110,22 @@ namespace WebApplication.Controllers
             }
         }
         [HttpGet]
-        [Route("api/PerfilConsumo/{perfilId}")]
+        [Route("api/PerfilConsumo/CalculaFatura/{IdPerfil}")]
         public PerfilConsumo CalculaFaturaReais(int IdPerfil)
         {
             PerfilConsumo result = null;
             using (var db = new dbContext())
             {
-                var perfil = db.PerfilConsumo.Where(c => c.Id == IdPerfil).FirstOrDefault();
+                var perfil = db.PerfilConsumo.Where(c => c.Id == IdPerfil).Include(i => i.ItemPerfils.Select(r => r.Recurso)).FirstOrDefault();
                 if (perfil != null)
                 {
                     perfil.ValorEstimado = SomaTotalFatura(perfil);
                     var totalKwh = CalculaFaturaKwh(perfil);
                     perfil.ConsumoDiario = totalKwh / 30;
                     perfil.ConsumoMensal = totalKwh;
+                    result = perfil;
                 }
+                db.SaveChanges();
             }
             return result;
         }
@@ -143,14 +145,16 @@ namespace WebApplication.Controllers
             double result = 0;
             if (item.Recurso != null)
             {
-                result = ((item.Recurso.Potencia / 1000) * (item.DiasUso * item.Tempo_uso) * item.Quantidade);
+                //decimal dec = (Convert.ToDecimal((item.Recurso.Potencia*100 / 1000)) * Convert.ToDecimal((item.DiasUso * item.Tempo_uso)) * item.Quantidade);
+                decimal dec = (Convert.ToDecimal((item.Recurso.Potencia*100 / 1000)) * Convert.ToDecimal((item.DiasUso * item.Tempo_uso)) * item.Quantidade);
+                result = (((double)item.Recurso.Potencia / (double)1000) * ((double)item.DiasUso * (double)item.Tempo_uso) * (double)item.Quantidade);
             }
             return result;
         }
         public double SomaTotalFatura(PerfilConsumo perfil)
         {
             var somaRecursos = SomaTotalKwh(perfil);
-            return (somaRecursos * (perfil.Kwh + perfil.Adicional + ((perfil.Kwh) + perfil.Adicional) * perfil.Icms) + somaRecursos * (perfil.Cofins + perfil.Pis));
+            return (somaRecursos * ((double)perfil.Kwh + (double)perfil.Adicional + ((double)perfil.Kwh + (double)perfil.Adicional) * (double)perfil.Icms) + somaRecursos * ((double)perfil.Cofins + (double)perfil.Pis));
         }
 
         private double SomaTotalKwh(PerfilConsumo perfil)

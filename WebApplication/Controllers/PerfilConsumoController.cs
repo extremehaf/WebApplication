@@ -68,6 +68,7 @@ namespace WebApplication.Controllers
 
         // PUT api/<controller>/5
         [HttpPut]
+        [Route("api/PerfilConsumo/{id}")]
         public HttpResponseMessage Put(int id, [FromBody]PerfilConsumo value)
         {
             using (var db = new dbContext())
@@ -130,7 +131,7 @@ namespace WebApplication.Controllers
             return result;
         }
 
-        public double CalculaFaturaKwh(PerfilConsumo perfil)
+        private double CalculaFaturaKwh(PerfilConsumo perfil)
         {
             double result = 0;
             if (perfil != null)
@@ -140,7 +141,7 @@ namespace WebApplication.Controllers
             return result;
         }
 
-        public double SomaValorRecurso(ItemPerfil item)
+        private double SomaValorRecurso(ItemPerfil item)
         {
             double result = 0;
             if (item.Recurso != null)
@@ -151,7 +152,7 @@ namespace WebApplication.Controllers
             }
             return result;
         }
-        public double SomaTotalFatura(PerfilConsumo perfil)
+        private double SomaTotalFatura(PerfilConsumo perfil)
         {
             var somaRecursos = SomaTotalKwh(perfil);
             return ((somaRecursos * ((double)perfil.Kwh + (double)perfil.Adicional + (((double)perfil.Kwh + (double)perfil.Adicional) * ((double)perfil.Icms)/(double)100))) + (somaRecursos * (((double)perfil.Cofins/(double)100) + ((double)perfil.Pis)/(double)100)));

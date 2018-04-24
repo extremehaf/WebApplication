@@ -37,6 +37,7 @@ namespace WebApplication.Controllers
 
         // GET api/<controller>/5
         [HttpGet]
+        [Route("api/PerfilConsumo/{id}")]
         public PerfilConsumo Get(int id)
         {
             using (var db = new dbContext())
@@ -92,6 +93,7 @@ namespace WebApplication.Controllers
 
         // DELETE api/<controller>/5
         [HttpDelete]
+        [Route("api/PerfilConsumo/{id}")]
         public HttpResponseMessage Delete(int id)
         {
             using (var db = new dbContext())

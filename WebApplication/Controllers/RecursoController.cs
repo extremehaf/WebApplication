@@ -21,6 +21,17 @@ namespace WebApplication.Controllers
         }
         // GET api/values
         [HttpGet]
+        [Route("api/Recurso/usuario/{usuarioId}/simples")]
+        public List<Recurso> RecursosUsuarioSimples(int usuarioId)
+        {
+            using (var db = new dbContext())
+            {
+                var recursos = db.Recurso.Where(r => r.UsuarioId == usuarioId).ToList();
+                return recursos;
+            }
+        }
+        // GET api/values
+        [HttpGet]
         [Route("api/Recurso/usuario/{usuarioId}")]
         public List<Recurso> RecursosUsuario(int usuarioId)
         {

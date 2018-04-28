@@ -22,8 +22,8 @@ namespace WebApplication.Migrations.Mapeamento
             Property(x => x.Endereco).HasColumnName("endereco").HasMaxLength(250);
             Property(x => x.DataNascimento).HasColumnName("data_nascimento").IsRequired();
 
-            HasMany(e => e.PerfilConsumos).WithRequired(e => e.Usuario).HasForeignKey(e => e.UsuarioId).WillCascadeOnDelete(false);
-            HasMany(e => e.Recursos).WithRequired(e => e.Usuario).HasForeignKey(e => e.UsuarioId).WillCascadeOnDelete(false);
+            HasMany(e => e.PerfilConsumos).WithRequired(e => e.Usuario).HasForeignKey(e => e.UsuarioId).WillCascadeOnDelete(true);
+            HasMany(e => e.Recursos).WithRequired(e => e.Usuario).HasForeignKey(e => e.UsuarioId).WillCascadeOnDelete(true);
 
             InitializePartial();
         }

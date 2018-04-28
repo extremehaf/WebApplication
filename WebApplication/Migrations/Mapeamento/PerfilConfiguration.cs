@@ -26,7 +26,7 @@ namespace WebApplication.Migrations.Mapeamento
             Property(x => x.ConsumoMensal).IsOptional().HasColumnName("consumo_mensal");
             Property(x => x.ValorEstimado).IsOptional().HasColumnName("consumo_estimado");
 
-            HasMany(e => e.ItemPerfils).WithRequired(e => e.PerfilConsumo).HasForeignKey(e => e.PerfilId).WillCascadeOnDelete(false);
+            HasMany(e => e.ItemPerfils).WithRequired(e => e.PerfilConsumo).HasForeignKey(e => e.PerfilId).WillCascadeOnDelete(true);
 
             InitializePartial();
         }

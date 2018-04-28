@@ -23,7 +23,7 @@ namespace WebApplication.Migrations.Mapeamento
             Property(x => x.Potencia).HasColumnName("potencia").IsRequired();
             Property(x => x.Voltagem).HasColumnName("voltagem").IsRequired();
 
-            HasMany(e => e.ItemPerfils).WithRequired(e => e.Recurso).HasForeignKey(e => e.RecursoId).WillCascadeOnDelete(false);
+            HasMany(e => e.ItemPerfils).WithRequired(e => e.Recurso).HasForeignKey(e => e.RecursoId).WillCascadeOnDelete(true);
 
             InitializePartial();
         }

@@ -15,12 +15,12 @@ namespace WebApplication.Migrations
                         RecursoId = c.Int(nullable: false),
                         PerfilId = c.Int(nullable: false),
                         quantidade = c.Int(nullable: false),
-                        senha = c.Int(nullable: false),
-                        Tempo_uso = c.Int(nullable: false),
+                        dias_uso = c.Int(nullable: false),
+                        Tempo_uso = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.PERFIL_CONSUMO", t => t.PerfilId)
-                .ForeignKey("dbo.RECURSO", t => t.RecursoId)
+                .ForeignKey("dbo.PERFIL_CONSUMO", t => t.PerfilId, cascadeDelete: true)
+                .ForeignKey("dbo.RECURSO", t => t.RecursoId, cascadeDelete: true)
                 .Index(t => t.RecursoId)
                 .Index(t => t.PerfilId);
             
@@ -29,18 +29,20 @@ namespace WebApplication.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
+                        Descricao = c.String(unicode: false),
                         usuario_id = c.Int(nullable: false),
-                        tipo = c.String(unicode: false),
+                        tipo = c.String(nullable: false, maxLength: 250, storeType: "nvarchar"),
                         icms = c.Double(nullable: false),
                         pis = c.Double(nullable: false),
                         cofins = c.Double(nullable: false),
+                        Adicional = c.Double(nullable: false),
                         kwh = c.Double(nullable: false),
-                        consumo_diario = c.Double(nullable: false),
-                        consumo_mensal = c.Double(nullable: false),
-                        consumo_estimado = c.Double(nullable: false),
+                        consumo_diario = c.Double(),
+                        consumo_mensal = c.Double(),
+                        consumo_estimado = c.Double(),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.USUARIO", t => t.usuario_id)
+                .ForeignKey("dbo.USUARIO", t => t.usuario_id, cascadeDelete: true)
                 .Index(t => t.usuario_id);
             
             CreateTable(
@@ -61,15 +63,15 @@ namespace WebApplication.Migrations
                 c => new
                     {
                         id = c.Int(nullable: false, identity: true),
-                        descricao = c.String(nullable: false, maxLength: 250, storeType: "nvarchar"),
+                        descricao = c.String(maxLength: 250, storeType: "nvarchar"),
                         usuario_id = c.Int(nullable: false),
                         nome = c.String(nullable: false, maxLength: 250, storeType: "nvarchar"),
-                        foto = c.Binary(nullable: false),
-                        data_nascimento = c.String(nullable: false, unicode: false),
+                        foto = c.String(unicode: false),
+                        voltagem = c.String(nullable: false, unicode: false),
                         potencia = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.id)
-                .ForeignKey("dbo.USUARIO", t => t.usuario_id)
+                .ForeignKey("dbo.USUARIO", t => t.usuario_id, cascadeDelete: true)
                 .Index(t => t.usuario_id);
             
         }

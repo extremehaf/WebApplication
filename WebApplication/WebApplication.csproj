@@ -226,6 +226,10 @@
     <Compile Include="Migrations\201804240059220_06.Designer.cs">
       <DependentUpon>201804240059220_06.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804280355021_07.cs" />
+    <Compile Include="Migrations\201804280355021_07.Designer.cs">
+      <DependentUpon>201804280355021_07.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Migrations\Mapeamento\RecursoConfiguration.cs" />
     <Compile Include="Migrations\Mapeamento\ItemPerfilConfiguration.cs" />
@@ -337,6 +341,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804240059220_06.resx">
       <DependentUpon>201804240059220_06.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804280355021_07.resx">
+      <DependentUpon>201804280355021_07.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -78,7 +78,7 @@ namespace WebApplication.Controllers
         }
 
         // PUT: api/Usuario/5
-        public void Put(int id, [FromBody]Usuario value)
+        public Usuario Put(int id, [FromBody]Usuario value)
         {
             using (var db = new dbContext())
             {
@@ -95,7 +95,9 @@ namespace WebApplication.Controllers
                         user.Senha = value.Senha;
                     }
                     db.SaveChanges();
+                    return user;
                 }
+                throw new HttpResponseException(HttpStatusCode.NoContent);
             }
         }
 

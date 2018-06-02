@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Web.Http;
 using WebApplication.DAL;
 using WebApplication.Models;
+using WebApplication.ViewModels;
 
 namespace WebApplication.Controllers
 {
@@ -30,8 +31,45 @@ namespace WebApplication.Controllers
             {
                 var perfil = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(i => i.ItemPerfils);
 
-                
+
                 return perfil.ToList();
+            }
+        }
+        [HttpGet]
+        [Route("api/PerfilConsumo/ItemMaiorConsumo/{usuarioId}")]
+        public List<RecursoMaiorConsumoViewModel> GetItemMaiorConsumo(int usuarioId)
+        {
+            using (var db = new dbContext())
+            {
+                var listaRecursoMaiorConsumo = new List<RecursoMaiorConsumoViewModel>();
+                var perfis = db.PerfilConsumo.Where(p => p.UsuarioId == usuarioId).Include(c => c.ItemPerfils.Select(x => x.Recurso));
+                RecursoMaiorConsumoViewModel recursoMaiorConsumo;
+                foreach (var perfil in perfis)
+                {
+                    recursoMaiorConsumo = new RecursoMaiorConsumoViewModel();
+                    recursoMaiorConsumo.IdPerfil = perfil.Id;
+                    recursoMaiorConsumo.NomePerfil = perfil.Descricao;
+                    double maiorKwh = 0;
+                    var itemPerfil = new ItemPerfil();
+                    foreach (var itemP in perfil.ItemPerfils)
+                    {
+
+                        recursoMaiorConsumo.NomeRecurso = itemP.Recurso.Nome;
+                        recursoMaiorConsumo.IdRecurso = itemP.Recurso.Id;
+                        var result = ((double)itemP.Recurso.Potencia / (double)1000) * ((double)itemP.Tempo_uso * (double)itemP.DiasUso);
+                        if (maiorKwh < result)
+                        {
+                            maiorKwh = result;
+                            itemPerfil = itemP;
+                        }
+
+                    }
+                    recursoMaiorConsumo.KwhConsumo = maiorKwh;
+                    var valorConsumo = CalculaValorConsumo(perfil, maiorKwh);
+                    recursoMaiorConsumo.ValorConsumo = valorConsumo;
+                    listaRecursoMaiorConsumo.Add(recursoMaiorConsumo);
+                }
+                return listaRecursoMaiorConsumo;
             }
         }
 
@@ -42,7 +80,7 @@ namespace WebApplication.Controllers
         {
             using (var db = new dbContext())
             {
-                var perfil =  db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso)).FirstOrDefault();
+                var perfil = db.PerfilConsumo.Where(c => c.Id == id).Include(i => i.ItemPerfils.Select(r => r.Recurso)).FirstOrDefault();
 
                 foreach (var ip in perfil.ItemPerfils)
                 {
@@ -147,7 +185,7 @@ namespace WebApplication.Controllers
             if (item.Recurso != null)
             {
                 //decimal dec = (Convert.ToDecimal((item.Recurso.Potencia*100 / 1000)) * Convert.ToDecimal((item.DiasUso * item.Tempo_uso)) * item.Quantidade);
-                decimal dec = (Convert.ToDecimal((item.Recurso.Potencia*100 / 1000)) * Convert.ToDecimal((item.DiasUso * item.Tempo_uso)) * item.Quantidade);
+                decimal dec = (Convert.ToDecimal((item.Recurso.Potencia * 100 / 1000)) * Convert.ToDecimal((item.DiasUso * item.Tempo_uso)) * item.Quantidade);
                 result = (((double)item.Recurso.Potencia / (double)1000) * ((double)item.DiasUso * (double)item.Tempo_uso) * (double)item.Quantidade);
             }
             return result;
@@ -155,7 +193,12 @@ namespace WebApplication.Controllers
         private double SomaTotalFatura(PerfilConsumo perfil)
         {
             var somaRecursos = SomaTotalKwh(perfil);
-            return ((somaRecursos * ((double)perfil.Kwh + (double)perfil.Adicional + (((double)perfil.Kwh + (double)perfil.Adicional) * ((double)perfil.Icms)/(double)100))) + (somaRecursos * (((double)perfil.Cofins/(double)100) + ((double)perfil.Pis)/(double)100)));
+            return CalculaValorConsumo(perfil, somaRecursos);
+        }
+
+        private static double CalculaValorConsumo(PerfilConsumo perfil, double somaRecursos)
+        {
+            return ((somaRecursos * ((double)perfil.Kwh + (double)perfil.Adicional + (((double)perfil.Kwh + (double)perfil.Adicional) * ((double)perfil.Icms) / (double)100))) + (somaRecursos * (((double)perfil.Cofins / (double)100) + ((double)perfil.Pis) / (double)100)));
         }
 
         private double SomaTotalKwh(PerfilConsumo perfil)
